@@ -8,6 +8,8 @@ import { EngineComponent } from './engine/engine.component';
 import { MaterialModule } from './material'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TutorialDialogComponent } from './ui/top-bar/tutorial-dialog/tutorial-dialog.component';
+import { FabComponent } from './ui/fab/fab.component';
+import {GlobalService} from './global-service';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import { TutorialDialogComponent } from './ui/top-bar/tutorial-dialog/tutorial-d
     UiComponent,
     TopBarComponent,
     EngineComponent,
-    TutorialDialogComponent
+    TutorialDialogComponent,
+    FabComponent
   ],
   entryComponents: [TutorialDialogComponent],
   imports: [
@@ -24,7 +27,7 @@ import { TutorialDialogComponent } from './ui/top-bar/tutorial-dialog/tutorial-d
     MaterialModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
