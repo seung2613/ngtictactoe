@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Injectable, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { OrbitControls } from 'three-orbitcontrols-ts';
+import { GlobalService } from '../global-service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ export class EngineService implements OnDestroy {
     private camera: THREE.PerspectiveCamera;
     private scene: THREE.Scene;
     private mouse: THREE.Vector2;
+    private gameOverSub: any;
 
     private red;
     private INTERSECTED;
@@ -24,7 +26,7 @@ export class EngineService implements OnDestroy {
     private controls;
     // private projector: THREE.Projector;
 
-    public constructor(private ngZone: NgZone) {
+    public constructor(private ngZone: NgZone, private globalService: GlobalService) {
         this.flag = false; this.count = 0;
         this.mouse = new THREE.Vector2(0, 0);
         this.huPlayer = { r: 1, g: 0, b: 0 };
@@ -38,6 +40,15 @@ export class EngineService implements OnDestroy {
             [[], [], [], []],
             [[], [], [], []]
         ];
+    }
+    get getCamera(): THREE.PerspectiveCamera {
+        return this.camera;
+    }
+    get getScene(): THREE.Scene {
+        return this.scene;
+    }
+    get getControl(): OrbitControls {
+        return this.controls;
     }
 
     public ngOnDestroy() { }
@@ -62,8 +73,8 @@ export class EngineService implements OnDestroy {
         let mycenter = new THREE.Box3().setFromObject(this.scene);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-        this.camera.position.x = 100;
         this.camera.position.y = 800;
+        this.camera.position.x = 100;
         this.camera.position.z = 50;
         this.camera.lookAt(0);
         // this.camera.position.set(120,50,100);
@@ -119,10 +130,14 @@ export class EngineService implements OnDestroy {
             window.addEventListener('resize', () => {
                 this.resize();
             });
+            window.addEventListener('mousedown', this.onMouseDownFunction, true);
+            window.addEventListener('touchdown', this.onMouseDownFunction, true);
 
-            window.addEventListener('mousedown', this.onMouseDownFunction);
-            window.addEventListener('touchdown', this.onMouseDownFunction);
-
+            this.gameOverSub = this.globalService.isGameOver.subscribe((val) => {
+                if (val == 'true') {
+                    this.disableMouseClick();
+                }
+            })
         });
     }
 
@@ -150,11 +165,13 @@ export class EngineService implements OnDestroy {
         if (point === undefined) {
         } else if (player === this.huPlayer && point.material.emissive.equals(this.tie)) {
             point.material.emissive.setHex(0xff0000);
+            this.globalService.turn = "Blue's turn";
             this.flag = true;
             this.count++;
         } else if (player === this.aiPlayer && point.material.emissive.equals(this.tie)) {
 
             point.material.emissive.setHex(0x0000ff);
+            this.globalService.turn = "Red's turn";
             this.flag = false;
             this.count++;
         }
@@ -201,17 +218,16 @@ export class EngineService implements OnDestroy {
             }
         }
 
-        if (this.winning(this.targetList, this.huPlayer)) {
+        if (this.winning(this.targetList, this.huPlayer) || this.winning(this.targetList, this.aiPlayer) ||
+            this.count == 64) {
+            this.globalService.gameOver = "true";
 
-            window.location.reload();
-        } else if (this.winning(this.targetList, this.aiPlayer)) {
-
-            window.location.reload();
-        } else if (this.count == 64) {
-
-            window.location.reload();
         }
 
+    }
+    disableMouseClick(): void {
+        window.removeEventListener('mousedown', this.onMouseDownFunction, true);
+        window.removeEventListener('touchdown', this.onMouseDownFunction, true);
     }
 
 

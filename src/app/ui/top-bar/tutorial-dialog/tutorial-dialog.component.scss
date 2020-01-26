@@ -8,12 +8,10 @@ mat-dialog-actions {
 
 p{
     padding: 10px;
-
-
 }
 
-.tutorial-container {
-    background-color: aliceblue;
+::ng-deep .mat-dialog-container {
+    background-color: #b9d3ee !important;
     margin:20px;
     padding: 30px;
     overflow: hidden;
