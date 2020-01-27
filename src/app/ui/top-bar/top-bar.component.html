@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
-  <span>4x4x4</span>
+  <span id="logo">4x4x4</span>
   <span id="turn">{{turn}}</span>
-  <button id="restart" *ngIf="isGameOver" mat-button (click)="reload($event)">Restart</button>
-  <button mat-button (click)="openDialog($event)">How to play</button>
+  <button mat-fab id="restart" color="primary" *ngIf="isGameOver" mat-button (click)="reload($event)">Restart</button>
+  <button mat-button (click)="openDialog($event)">?</button>
 </mat-toolbar>

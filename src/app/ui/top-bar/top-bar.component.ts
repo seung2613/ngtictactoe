@@ -26,7 +26,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
       this.isGameOver = (val == "true");
       if (this.isGameOver) {
         let winner = this.turn == "Blue's turn" ? 'Red' : 'Blue';
-        this.turn = `Game over. ${winner} won !`;
+        this.turn = `${winner} won !`;
       }
     })
   }

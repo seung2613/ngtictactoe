@@ -4,16 +4,29 @@ mat-toolbar {
   flex: 1 1 auto;
 }
 #turn {
- margin-left: 100px;
   flex: 1 1 auto;
   text-align: center;
   font-weight: 200;
+  width: 100%;
 }
 
-#restart{
-   color: yellow;
+.mat-fab{
+   top: auto;
+   bottom: 3.24em;
+   left: 1.5em;
+   position: fixed;
+   font-size: 13px;
+ }
+
+#logo{
+   font-size: 15px;
+}
+
+#restart {
+  color: yellow;
 }
 
 button {
-   font-size: 18px;
+  font-size: 18px;
+  font-weight: bold;
 }
