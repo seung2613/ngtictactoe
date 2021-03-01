@@ -24,7 +24,7 @@
     "@types/offscreencanvas": "^2019.6.1",
     "bootstrap": "^4.4.1",
     "rxjs": "~6.4.0",
-    "three": "^0.110.0",
+    "three": "^0.125.0",
     "three-orbitcontrols-ts": "^0.1.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
